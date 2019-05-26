@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Data Table</title>
+
+    <!-- Styles -->
+    <link href="assets/css/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/lib/themify-icons.css" rel="stylesheet">
+    <link href="assets/css/lib/data-table/buttons.bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/lib/menubar/sidebar.css" rel="stylesheet">
+    <link href="assets/css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/lib/helper.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <div class="logo"><a href="index.html"><!-- <img src="assets/images/logo.png" alt="" /> --><span>实验室设备管理</span></a></div>
+                    <ul>
+                        <!-- 侧边导航栏 -->
+                        <li class="label">常用设置</li>
+                        
+                        <li><a class="sidebar-sub-toggle"><i class="ti-view-list-alt"></i> equipment <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li class="active"><a href="deviceManage.html">设备管理</a></li>
+                            </ul>
+                        </li>
+                       
+                       
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+
+        <!-- 头部区域 -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="float-left">
+                        <div class="hamburger sidebar-toggle">
+                            <span class="line"></span>
+                            <span class="line"></span>
+                            <span class="line"></span>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <i class="ti-bell"></i>
+                                <div class="drop-down dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">Recent Notifications</span>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">5 members joined today </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mariam</div>
+                                                        <div class="notification-text">likes a photo of you</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Tasnim</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="text-center">
+                                                <a href="#" class="more-link">See All</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <i class="ti-email"></i>
+                                <div class="drop-down dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">2 New Messages</span>
+                                        <a href="email.html">
+                                            <i class="ti-pencil-alt pull-right"></i>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li class="notification-unread">
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Michael Qin</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="notification-unread">
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Michael Qin</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
+                                                    <div class="notification-content">
+                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                        <div class="notification-heading">Mr. John</div>
+                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="text-center">
+                                                <a href="#" class="more-link">See All</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown dib">
+                            <div class="header-icon" data-toggle="dropdown">
+                                <span class="user-avatar">John
+                                    <i class="ti-angle-down f-s-10"></i>
+                                </span>
+                                <div class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-content-heading">
+                                        <span class="text-left">Upgrade Now</span>
+                                        <p class="trial-day">30 Days Trail</p>
+                                    </div>
+                                    <div class="dropdown-content-body">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-user"></i>
+                                                    <span>Profile</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-email"></i>
+                                                    <span>Inbox</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-settings"></i>
+                                                    <span>Setting</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-lock"></i>
+                                                    <span>Lock Screen</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ti-power-off"></i>
+                                                    <span>Logout</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8 p-r-0 title-margin-right">
+                        <div class="page-header">
+                            <div class="page-title">
+                                <h1>Hello, <span>Welcome Here</span></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /# column -->
+                    <div class="col-lg-4 p-l-0 title-margin-left">
+                        <div class="page-header">
+                            <div class="page-title">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Table-Export</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /# column -->
+                </div>
+                <!-- /# row -->
+                <section id="main-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="bootstrap-data-table-panel">
+                                    <div class="table-responsive">
+                                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Position</th>
+                                                    <th>Office</th>
+                                                    <th>Salary</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               <!-- 省略一大堆demo数据 -->
+                                                <tr>
+                                                    <td>Serge Baldwin</td>
+                                                    <td>Data Coordinator</td>
+                                                    <td>Singapore</td>
+                                                    <td>$138,575</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Zenaida Frank</td>
+                                                    <td>Software Engineer</td>
+                                                    <td>New York</td>
+                                                    <td>$125,250</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Zorita Serrano</td>
+                                                    <td>Software Engineer</td>
+                                                    <td>San Francisco</td>
+                                                    <td>$115,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jennifer Acosta</td>
+                                                    <td>Junior Javascript Developer</td>
+                                                    <td>Edinburgh</td>
+                                                    <td>$75,650</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cara Stevens</td>
+                                                    <td>Sales Assistant</td>
+                                                    <td>New York</td>
+                                                    <td>$145,600</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Hermione Butler</td>
+                                                    <td>Regional Director</td>
+                                                    <td>London</td>
+                                                    <td>$356,250</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lael Greer</td>
+                                                    <td>Systems Administrator</td>
+                                                    <td>London</td>
+                                                    <td>$103,500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jonas Alexander</td>
+                                                    <td>Developer</td>
+                                                    <td>San Francisco</td>
+                                                    <td>$86,500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Shad Decker</td>
+                                                    <td>Regional Director</td>
+                                                    <td>Edinburgh</td>
+                                                    <td>$183,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>John Bruce</td>
+                                                    <td>Javascript Developer</td>
+                                                    <td>Singapore</td>
+                                                    <td>$183,000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Donna Snider</td>
+                                                    <td>Customer Support</td>
+                                                    <td>New York</td>
+                                                    <td>$112,000</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /# card -->
+                        </div>
+                        <!-- /# column -->
+                    </div>
+                    <!-- /# row -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer">
+                                <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    
+    <!-- jquery vendor -->
+    <script src="assets/js/lib/jquery.min.js"></script>
+    <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
+    <!-- nano scroller -->
+    <script src="assets/js/lib/menubar/sidebar.js"></script>
+    <script src="assets/js/lib/preloader/pace.min.js"></script>
+    <!-- sidebar -->
+    
+    <!-- bootstrap -->
+
+    <script src="assets/js/lib/bootstrap.min.js"></script>
+    <!-- 导览栏交互样式文件 -->
+    <script src="assets/js/scripts.js"></script>
+    <!-- scripit init-->
+    <script src="assets/js/lib/data-table/datatables.min.js"></script>
+    <script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+    <script src="assets/js/lib/data-table/buttons.flash.min.js"></script>
+    <script src="assets/js/lib/data-table/jszip.min.js"></script>
+    <script src="assets/js/lib/data-table/pdfmake.min.js"></script>
+    <script src="assets/js/lib/data-table/vfs_fonts.js"></script>
+    <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
+    <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
+    <!-- 初始化页面中的表格 -->
+    <script src="assets/js/lib/data-table/datatables-init.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
