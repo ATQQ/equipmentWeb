@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Data Table</title>
+    <title>设备管理</title>
 
     <!-- Styles -->
     <link href="assets/css/lib/font-awesome.min.css" rel="stylesheet">
@@ -17,207 +17,52 @@
     <link href="assets/css/lib/helper.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/lib/data-table/addButton.css" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/webuploader.css">
 </head>
 
 <body>
 
-        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-            <div class="nano">
-                <div class="nano-content">
-                    <div class="logo"><a href="deviceManage.html"><!-- <img src="assets/images/logo.png" alt="" /> --><span>实验室设备管理</span></a></div>
-                    <ul>
-                        <!-- 侧边导航栏 -->
-                        <li class="label">常用设置</li>
-                        
-                        <li><a class="sidebar-sub-toggle"><i class="ti-view-list-alt"></i> equipment <span class="sidebar-collapse-icon ti-angle-down"></span></a>
-                            <ul>
-                                <li class="active all-device"><a href="deviceManage.html">设备管理</a></li>
-                            </ul>
-                        </li>                                           
-                    </ul>
-                </div>
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="nano">
+            <div class="nano-content">
+                <div class="logo"><a href="deviceManage.html">
+                        <!-- <img src="assets/images/logo.png" alt="" /> --><span>实验室设备管理</span></a></div>
+                <ul>
+                    <!-- 侧边导航栏 -->
+                    <li class="label">常用设置</li>
+
+                    <li><a class="sidebar-sub-toggle"><i class="ti-view-list-alt"></i> equipment <span
+                                class="sidebar-collapse-icon ti-angle-down"></span></a>
+                        <ul>
+                            <li class="active all-device"><a href="deviceManage.html">设备管理</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
-        <!-- /# sidebar -->
+    </div>
+    <!-- /# sidebar -->
 
 
-        <!-- 头部区域 -->
+    <!-- 头部区域 -->
     <div class="header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="float-left">
+                    <div class="fw-fl">
                         <div class="hamburger sidebar-toggle">
                             <span class="line"></span>
                             <span class="line"></span>
                             <span class="line"></span>
                         </div>
                     </div>
-                    <div class="float-right">
-                        <div class="dropdown dib">
-                            <div class="header-icon" data-toggle="dropdown">
-                                <i class="ti-bell"></i>
-                                <div class="drop-down dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-content-heading">
-                                        <span class="text-left">Recent Notifications</span>
-                                    </div>
-                                    <div class="dropdown-content-body">
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Mr. John</div>
-                                                        <div class="notification-text">5 members joined today </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Mariam</div>
-                                                        <div class="notification-text">likes a photo of you</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Tasnim</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Mr. John</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li class="text-center">
-                                                <a href="#" class="more-link">See All</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown dib">
-                            <div class="header-icon" data-toggle="dropdown">
-                                <i class="ti-email"></i>
-                                <div class="drop-down dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-content-heading">
-                                        <span class="text-left">2 New Messages</span>
-                                        <a href="email.html">
-                                            <i class="ti-pencil-alt pull-right"></i>
-                                        </a>
-                                    </div>
-                                    <div class="dropdown-content-body">
-                                        <ul>
-                                            <li class="notification-unread">
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Michael Qin</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li class="notification-unread">
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Mr. John</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Michael Qin</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
-                                                    <div class="notification-content">
-                                                        <small class="notification-timestamp pull-right">02:34 PM</small>
-                                                        <div class="notification-heading">Mr. John</div>
-                                                        <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <li class="text-center">
-                                                <a href="#" class="more-link">See All</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="fw-fr">
+
                         <div class="dropdown dib">
                             <div class="header-icon" data-toggle="dropdown">
                                 <span class="user-avatar">John
-                                    <i class="ti-angle-down f-s-10"></i>
                                 </span>
-                                <div class="drop-down dropdown-profile dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-content-heading">
-                                        <span class="text-left">Upgrade Now</span>
-                                        <p class="trial-day">30 Days Trail</p>
-                                    </div>
-                                    <div class="dropdown-content-body">
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-user"></i>
-                                                    <span>Profile</span>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-email"></i>
-                                                    <span>Inbox</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-settings"></i>
-                                                    <span>Setting</span>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-lock"></i>
-                                                    <span>Lock Screen</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    <i class="ti-power-off"></i>
-                                                    <span>Logout</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -225,159 +70,162 @@
             </div>
         </div>
     </div>
-
-
 
 
     <div class="content-wrap">
-        <div class="main">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-8 p-r-0 title-margin-right">
-                        <div class="page-header">
-                            <div class="page-title">
-                                <h1>Hello, <span>Welcome Here</span></h1>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /# column -->
-                    <div class="col-lg-4 p-l-0 title-margin-left">
-                        <div class="page-header">
-                            <div class="page-title">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Table-Export</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /# column -->
-                </div>
-                <!-- /# row -->
-                <section id="main-content">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                
-                                <div class="bootstrap-data-table-panel">
-                                    <div class="table-responsive">
-                                        <!-- Button trigger modal -->
-                                        <div class="col-lg-12">
-                                            <div class="col-lg-1">
-                                            <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#myModal">
-                                                添加设备
-                                            </button>                                   
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                                <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title" id="myModalLabel">添加设备</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                    <form action="#" class="add-device-form" id="add-device-form">
-                                                                <div class="form-group">
-                                                                    <p>
-                                                                        <label for="eqName">设备名称</label>
-                                                                        <input type="text" name="eqName" class="form-control" placeholder="设备名称">
-                                                                    </p>
-                                                                </div>
-                                    
-                                                                <div class="form-group">
-                                                                    <p>
-                                                                        <label for="eqNumber">设备编号</label>
-                                                                        <input type="text" name="eqNumber" class="form-control" placeholder="设备编号">
-                                                                    </p>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                        <p>
-                                                                            <label for="categoryId">设备分类编号</label>
-                                                                            <input type="text" name="categoryId" class="form-control" placeholder="设备所属分类">
-                                                                        </p>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                        <p>
-                                                                            <label for="amount">库存数量</label>
-                                                                            <input type="text" name="amount" class="form-control" placeholder="库存数量">
-                                                                        </p>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                        <p>
-                                                                            <label for="image">设备图片</label>
-                                                                            <input type="file" name="image" class="form-control" placeholder="设备图片">
-                                                                        </p>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                        <p>
-                                                                            <label for="introduce">设备简介</label>
-                                                                            <input type="text" name="introduce" class="form-control" placeholder="设备简介">
-                                                                        </p>
-                                                                </div>
-                                                                <div>
-                                                                        <p>
-                                                                            <label for="">&nbsp;</label>
-                                                                            <input type="submit" id="add-device-btn" class="btn-primary" value="提交">
-                                                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                                                            <input type="reset" class="btn-danger" value="重置" >
-                                                                        </p>
-                                                                    </div>
-                                                    </form>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>设备相关图片</th>
-                                                    <th>设备名称</th>
-                                                    <th>设备编号</th>
-                                                    <th>设备所属分类编号</th>
-                                                    <th>设备简介</th>
-                                                    <th>可外借数量库存</th>
-                                                    <th>外借借出数量</th>
-                                                    <th>已被外借次数</th>
-                                                    <th>创建者账号</th>
-                                                    <th>设备创建日期</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                               <!-- 省略一大堆demo数据 -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /# card -->
-                        </div>
-                        <!-- /# column -->
-                    </div>
-                    <!-- /# row -->
 
-                    <div class="row">
+        <div class="container-fluid">
+
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="table-responsive">
                         <div class="col-lg-12">
-                            <div class="footer">
-                                <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+                            <div class="col-lg-1">
+                                <button type="button" class="btn btn-primary add-btn" data-toggle="modal"
+                                    data-target="#deviceModal">
+                                    添加设备
+                                </button>
                             </div>
                         </div>
+                        <table id="deviceTable" class="table table-striped table-bordered" align="center">
+                            <thead>
+                                <tr>
+                                    <th>相关图片</th>
+                                    <th>名称</th>
+                                    <th>编号</th>
+                                    <th>分类</th>
+                                    <th>简介</th>
+                                    <th>可外借数量/库存</th>
+                                    <th>外借借出数量</th>
+                                    <th>已被外借次数</th>
+                                    <th>管理员账号</th>
+                                    <th>创建日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 省略一大堆demo数据 -->
+                            </tbody>
+                        </table>
                     </div>
-                </section>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="footer">
+                    <p>Copyright &copy; 2019.Company name All rights reserved.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 新增设备弹窗Modal -->
+    <div class="modal fade" id="deviceModal" tabindex="-1" role="dialog" aria-labelledby="deviceModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="deviceModalLabel">添加设备</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="add-device-form" id="add-device-form">
+                        <div class="form-group">
+                            <p>
+                                <label for="eqName">设备名称</label>
+                                <input type="text" name="eqName" class="form-control" placeholder="设备名称">
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <p>
+                                <label for="eqNumber">设备编号</label>
+                                <input type="text" name="eqNumber" class="form-control" placeholder="设备编号">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="categoryId">设备分类</label>
+                                <select class="form-control" name="categoryId" id="categoryId">
+                                    <option value="1">苹果</option>
+                                    <option value="2">栗子</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="amount">库存数量</label>
+                                <input type="number" name="amount" class="form-control" placeholder="库存数量">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="image">设备图片</label>
+                                <div id="uploadArea">
+                                    <div style="display: flex;justify-content: center;">
+                                        <div id="imagePicker">选择图片</div>
+                                        <button id="sureUpload" type="button">
+                                            确认上传
+                                        </button>
+                                    </div>
+                                    <ul id="imagesList">
+                                        <!-- 各种状态图片示例部分 -->
+                                        <li>
+                                            <div class="wait state">等待上传</div>
+                                            <span class="delete">×</span>
+                                            <img src="https://avatars0.githubusercontent.com/u/42485491?s=60&v=4"
+                                                alt="图片">
+                                            <p class="filename">xxxxxxxxxxxxxxxxxx.png</p>
+                                        </li>
+                                        <li>
+                                            <div class="error state">上传出错</div>
+                                            <span class="delete">×</span>
+                                            <img src="https://avatars0.githubusercontent.com/u/42485491?s=60&v=4"
+                                                alt="图片">
+                                            <p class="filename">xxxxxx.png</p>
+                                        </li>
+                                        <li>
+                                            <div class="success state">上传成功</div>
+                                            <span class="delete">×</span>
+                                            <img src="https://avatars0.githubusercontent.com/u/42485491?s=60&v=4"
+                                                alt="图片">
+                                            <p class="filename">xxxxxx.png</p>
+                                        </li>
+                                        <li>
+                                            <div class="progress state">上传中</div>
+                                            <span class="delete">×</span>
+                                            <img src="https://avatars0.githubusercontent.com/u/42485491?s=60&v=4"
+                                                alt="图片">
+                                            <p class="filename">xxxxxx.png</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <label for="introduce">设备简介</label>
+                                <textarea class="form-control" rows="3" id="introduce" placeholder="设备简介"></textarea>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="fw-flex fw-c-sa">
+                                <button type="button" id="add-device-btn"
+                                    class="btn btn-success btn-rounded m-b-10 m-l-5" style="width:100px;">确定</button>
+                                <button type="reset" class="btn btn-danger btn-rounded m-b-10 m-l-5"
+                                    style="width:100px;">重置</button>
+
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
- 
 
-
-
-
-
-
-    
     <!-- jquery vendor -->
     <script src="assets/js/lib/jquery.js"></script>
     <script src="assets/js/lib/jquery.nanoscroller.min.js"></script>
@@ -385,7 +233,7 @@
     <script src="assets/js/lib/menubar/sidebar.js"></script>
     <script src="assets/js/lib/preloader/pace.min.js"></script>
     <!-- sidebar -->
-    
+
     <!-- bootstrap -->
 
     <script src="assets/js/lib/bootstrap.min.js"></script>
@@ -400,15 +248,17 @@
     <script src="assets/js/lib/data-table/vfs_fonts.js"></script>
     <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
     <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
+    <script src="assets/js/plunge/webuploader.js"></script>
     <!-- 初始化页面中的表格 -->
     <script src="assets/js/lib/data-table/datatables-init.js"></script>
     <!-- 测试接口-->
-    <script src="https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min.js"></script>
-     <!-- <script src="assets/js/lib/deviceMock.js"></script> -->
+    <script src="assets/js/lib/mock-min.js"></script>
+    <!-- <script src="assets/js/lib/deviceMock.js"></script> -->
     <!-- 渲染数据-->
-    <script src="assets/js/lib/data-table/renderDeviceData.js"></script>
-    
-    
-   
+    <script src="assets/js/view/renderDeviceData.js"></script>
+
+
+
 </body>
+
 </html>

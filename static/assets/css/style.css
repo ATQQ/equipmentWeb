@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900');
+/* @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900'); */
 /*
     Table of Content
     ================
@@ -2698,21 +2698,26 @@ ul {
 thead tr th {
   color: #373757;
   font-weight: 500;
+  text-align: center;
 }
-thead tr th:last-child {
+/* thead tr th:last-child {
   text-align: right;
-}
+} */
 tbody tr th {
   color: #373757;
   font-family: 'Roboto', sans-serif;
   font-weight: normal;
+  text-align: center;
 }
 tbody tr td {
   font-family: 'Roboto', sans-serif;
   color: #868e96;
+  text-align: center;
 }
 tbody tr td:last-child {
-  text-align: right;
+  /* vertical-align: middle;
+  display: flex;
+  justify-content: space-around; */
 }
 .table > tbody > tr > td,
 .table > tbody > tr > th,
@@ -2721,7 +2726,7 @@ tbody tr td:last-child {
 .table > thead > tr > td,
 .table > thead > tr > th {
   line-height: 32px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .table > thead > tr > th {
   border-bottom: 1px solid #e7e7e7;

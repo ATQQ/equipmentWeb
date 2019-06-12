@@ -1,0 +1,242 @@
+/* color */
+.fw-border-primary {
+  border: 1px solid #2d8cf0 !important; }
+
+.fw-b-primary {
+  background-color: #2d8cf0 !important; }
+
+.fw-b-lightPrimary {
+  background-color: #5cadff; }
+
+.fw-b-darkPrimary {
+  background-color: #2b85e4; }
+
+.fw-b-title {
+  background-color: #1c2438; }
+
+.fw-b-content {
+  background-color: #495060; }
+
+.fw-b-SubColor {
+  background-color: #80848f; }
+
+.fw-circle {
+  border-radius: 50%; }
+
+.fw-margin-sm {
+  margin: 6px; }
+
+.fw-b-Disabled {
+  background-color: #bbbec4; }
+
+.fw-font-sm {
+  font-size: 10px; }
+
+.fw-font-de {
+  font-size: 16px; }
+
+.fw-font-lg {
+  font-size: 26px; }
+
+.fw-font-bold {
+  font-weight: bold; }
+
+.fw-c-fff {
+  color: #fff; }
+
+.fw-c-primary {
+  color: #2d8cf0 !important; }
+
+.fw-c-lightPrimary {
+  color: #5cadff; }
+
+.fw-c-darkPrimary {
+  color: #2b85e4; }
+
+.fw-c-title {
+  color: #1c2438; }
+
+.fw-c-Success {
+  color: #19be6b !important; }
+
+.fw-c-content {
+  color: #495060; }
+
+.fw-c-SubColor {
+  color: #80848f; }
+
+.fw-c-sa {
+  justify-content: space-around; }
+
+.fw-c-error {
+  color: #ed3f14; }
+
+.fw-c-Disabled {
+  color: #bbbec4; }
+
+.fw-fixed-bottom {
+  position: fixed;
+  bottom: 0px; }
+
+.fw-w100 {
+  width: 100%; }
+
+.fw-w45 {
+  width: 45%; }
+
+.fw-flex {
+  display: flex; }
+
+.fw-c-c {
+  justify-content: center; }
+
+.fw-c-l {
+  justify-content: left; }
+
+.fw-c-sb {
+  justify-content: space-between; }
+
+.fw-warp {
+  flex-wrap: wrap; }
+
+.fw-bgc {
+  background-color: #f8f8f9 !important; }
+
+.fw-hide {
+  display: none !important;
+  visibility: hidden !important; }
+
+.fw-margin-top-xs {
+  margin-top: 16px; }
+
+.fw-margin-left-mini {
+  margin-left: 10px; }
+
+.fw-margin-bottom-mini {
+  margin-bottom: 10px; }
+
+.fw-margin-right-mini {
+  margin-right: 10px; }
+
+.fw-margin-top-mini {
+  margin-top: 10px; }
+
+.fw-margin-top-zero {
+  margin-top: 0px; }
+
+.fw-block {
+  display: block; }
+
+.fw-fl {
+  float: left; }
+
+.fw-fr {
+  float: right; }
+
+.fw-fdc {
+  flex-direction: column; }
+
+.fw-hportraip-default {
+  width: 80px;
+  height: 80px; }
+
+.fw-hportraip-sm {
+  width: 66px;
+  height: 66px; }
+
+.fw-padding-default {
+  padding: 10px; }
+
+.fw-text-c {
+  text-align: center; }
+
+.fw-w80 {
+  width: 80%; }
+
+.fw-w20 {
+  width: 20%; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+li {
+  list-style: none; }
+
+#uploadArea {
+  width: 888px; }
+
+#imagePicker {
+  display: block;
+  margin: 6px; }
+
+#imagesList {
+  position: relative;
+  overflow: hidden; }
+  #imagesList .wait,
+  #imagesList .error,
+  #imagesList .success,
+  #imagesList .progress {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    top: -1px;
+    left: 0; }
+  #imagesList .wait {
+    background-color: rgba(158, 158, 158, 0.5); }
+  #imagesList .error {
+    background-color: rgba(255, 0, 0, 0.5);
+    color: #fff; }
+  #imagesList .success {
+    background-color: rgba(76, 175, 80, 0.9);
+    color: #fff; }
+  #imagesList .progress {
+    background-color: rgba(255, 235, 59, 0.7);
+    color: #fff; }
+
+#imagesList li {
+  display: block;
+  position: relative;
+  width: 110px;
+  height: 140px;
+  margin: 10px;
+  float: left; }
+
+#sureUpload {
+  margin: 6px;
+  height: 38px;
+  padding: 0 20px;
+  display: block;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(76, 175, 80, 0.9);
+  border: none; }
+
+#imagesList li span.delete {
+  z-index: 10;
+  width: 18px;
+  height: 18px;
+  background-color: red;
+  display: block;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  right: -4px;
+  top: -10px; }
+
+#imagesList li img {
+  width: 100%; }
+
+#imagesList li p.filename {
+  text-align: center;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap; }
+
+/*# sourceMappingURL=app.css.map */
