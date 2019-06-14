@@ -1,7 +1,11 @@
 $(document).ready(function () {
 
-    var baseUrl = "http://localhost:8080/Test/";
+    var baseUrl = "http://localhost:8088/api/equipmentServer/";
 
+    //管理员账号
+    var account = "admin";
+    //临时存放上传图片的数组
+    var uploadImg = [];
     //mock数据
     /**
     * @param {string} url 第一个参数 当前请求的api
@@ -31,7 +35,7 @@ $(document).ready(function () {
 
     //初始化deviceTable 对象
     var deviceTable = initDataTables();
-    
+
     var catgoryData = new Map();
     /**
      *获取分类的数据
@@ -49,30 +53,68 @@ $(document).ready(function () {
     $('.all-device').on('click', function () {
 
     })
-    //用户点击提交之后 获取表单的值 改变表格数据 改变上传图片样式 
+
+    /**
+     * 确认新增设备
+     **/
     $('#add-device-btn').on('click', function (e) {
         e.preventDefault();
         var data = $('#add-device-form').serializeArray();
         var key = true;
-        
+
         //把获取的数组转化为对象 把获取的图片地址剪切进来
-        data = formatObj(data); 
-        //管理员账号获取
-        data.eqAdmin = '黄海';
-        //图片返回
-        data.images = 'assets/images/testImg.png"';
+        data = formatObj(data);
+        //管理员账号设置
+        data.eqAdmin = account;
+
         //判断用户填写的信息是否符合规范
-        for(prop in data){
-            if(data[prop] == ''){
+
+        for (prop in data) {
+            if (data[prop] == '') {
                 alert("请把设备信息填写完整！！");
-                console.log(data);
                 key = false;
-                break;
+                return;
             }
         }
-        
-        if(true){
-        addDataToDeviceTable(data)}
+
+        // data.images = 'assets/images/testImg.png"';
+
+        //获取队列中等待的图片数目
+        const fileNum = imageUploader.getFiles('inited').length;
+        //如果没有图片直接上传更新数据
+        if (fileNum == 0) {
+            //图片
+            data.images = JSON.stringify(uploadImg);
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                data: JSON.stringify(
+                    data
+                ),
+                success: function (res) {
+                    if (res.code == 200) {
+                        alert("新增成功");
+                        addDataToDeviceTable(res.data);
+                    } else {
+                        switch (res.code) {
+                            case 201:
+                                alert('此设备号编号已经存在,请重新设置');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },
+                error: function () {
+                    alert("网络错误")
+                }
+            })
+            return;
+        }
+        $('#sureUpload').click();
     })
 
     /**
@@ -85,11 +127,38 @@ $(document).ready(function () {
         const deviceId = $($row.data()[10]).attr("deviceId");
         // console.log(deviceId);
         if (confirm("确认删除此条数据吗?")) {
-            //ajax Delete
-            $row
-                .row($(this).parents('tr'))
-                .remove()
-                .draw();
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "DELETE",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                data: JSON.stringify({
+                    eqId: deviceId
+                }),
+                success: function (res) {
+                    if (res.code == 200) {
+                        $row
+                            .remove()
+                            .draw();
+                    } else {
+                        switch (res.code) {
+                            case 201:
+                                alert("没有权限");
+                                break;
+                            case 206:
+                                alert("未知异常");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                },
+                error: function () {
+                    alert("网络异常");
+                }
+            })
+
         }
     })
 
@@ -98,7 +167,7 @@ $(document).ready(function () {
      * 对已经在表中的数据进行编辑
      */
 
-    $('#deviceTable tbody').on('click','.edit-btn',function(e){
+    $('#deviceTable tbody').on('click', '.edit-btn', function (e) {
         //当前操作的行
         const $row = deviceTable.row($(this).parents('tr'));
         //待编辑的设备id
@@ -113,68 +182,179 @@ $(document).ready(function () {
      * 
      * 处理用户添加分类的操作
      */
-    $(".category-add-btn").on('click',function(e){
+    $("#category-add-btn").on('click', function (e) {
         e.preventDefault();
         //获取用户输入的新分类名
         var addForm = $(".addCategory").val();
+        if (!addForm) {
+            return;
+        }
         var key = true;
-        var newCategory = '';
         //将新分类名与已有的分类名进行比较
-        catgoryData.forEach(function (ele,index){
-            if(ele == addForm.toString()){
+        catgoryData.forEach(function (ele, index) {
+            if (ele == addForm.toString()) {
                 alert("当前分类已经存在，请输入未添加的分类名！");
                 key = false;
             }
         })
-        if(key &&  addForm != ""){
-            newCategory += '<div class="alert alert-info alert-dismissible  pull-left m-r-7" role="alert">\
-            <button type="button" class="close category-del-btn" data-dismiss="" aria-label="">\
-            <span aria-hidden="true">&times;</span></button>\
-            <strong>'+ addForm +'</strong>&nbsp;</div>';
-            $('.taglist').append(newCategory);
-            //ajax 更新数据库 获取id
-            //更新当前页面的分类map的值
-            //改变添加的编辑的表单select          
-            alert("添加成功");
+        if (key) {
+            $.ajax({
+                url: baseUrl + "categorys/" + account,
+                type: "POST",
+                headers: {
+                    'Content-Type': "application/json;charset=ytf-8"
+                },
+                data: JSON.stringify({
+                    cgName: addForm
+                }),
+                success: function (res) {
+                    // console.log(res);
+                    if (res.code == 200) {
+
+                        //更新当前页面的分类map的值
+                        catgoryData.set(res.data.cg_id, addForm);
+                        //改变添加的编辑的表单select
+                        addCategoryToSelectOp(res.data.cg_id, addForm);
+                        //向分类面板添加数据
+                        addCategoryToPanel(res.data.cg_id, addForm);
+                    } else {
+                        switch (res.code) {
+                            case 201:
+                                alert("分类名称已存在");
+                                break;
+                            case 206:
+                            case 500:
+                                alert("未知异常");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                },
+                error: function () {
+                    alert("网络错误");
+                }
+            })
+
         }
         //重置
         $(".addCategory").val('');
     })
-    
+
     /**
-     * 
      * 处理用户删除分类的操作
      */
-    $(".taglist").on('click','.category-del-btn',function(e){
+    $(".taglist").on('click', '.category-del-btn', function (e) {
+        let that = this;
         //获取当前标签的值
-        var  categoryName = $(this).parent('div').find('strong').text();        
+        var categoryName = $(this).parent('div').find('strong').text();
+        //标签的id
+        const categoryId = $(this).parent('div').attr('categoryid');
         //判断当前分类标签是否存在于表格中
         var len = deviceTable.data().length;
         var order = 3;
         var key = true;
         var $data = deviceTable.data();
-        for(var i = 0 ; i < len ; i++ ){
-            if($data[i][order] == categoryName){
+        for (var i = 0; i < len; i++) {
+            if ($data[i][order] == categoryName) {
                 alert("删除失败，仍然有当前分类设备在表格中!");
                 key = false;
                 break;
             }
         }
-        if(key){
-          if(confirm("确认删除吗？")){
-            $(this).attr('data-dismiss','alert');
-            alert("删除成功!!");
-            //ajax发送到数据库
-            //修改对应的map
-            //改变添加的编辑的表单select限选框
-            (".category-del-btn").trigger('click');
-          }
+        if (key) {
+            if (confirm("确认删除吗？")) {
+                // $(this).attr('data-dismiss', 'alert');
+                // (".category-del-btn").trigger('click');
+                $.ajax({
+                    url: baseUrl + "categorys/" + account,
+                    type: "DELETE",
+                    headers: {
+                        'Content-Type': "application/json;charset=ytf-8"
+                    },
+                    data: JSON.stringify({
+                        cgId: categoryId
+                    }),
+                    success: function (res) {
+                        // console.log(res);
+                        if (res.code == 200) {
+                            //修改对应的map
+                            catgoryData.delete(categoryId);
+                            //改变编辑的表单select限选框
+                            deleteCategoryInSelectOp(categoryId);
+                            //移除当前的按钮
+                            $(that).parent('div').remove();
+                        } else {
+                            switch (res.code) {
+                                case 206:
+                                case 500:
+                                    alert("未知异常");
+                                    break;
+                                default:
+                                    alert("未知异常");
+                                    break;
+                            }
+                        }
+
+                    },
+                    error: function () {
+                        alert("网络错误");
+                    }
+                })
+
+            }
         }
     })
-   
+
+    /**
+     * 初始话新增设备的弹窗面板
+     */
+    $('#addDevice').on('click',function () {
+        resetModalPanel();
+    })
     //===========================function部分===========================
+
+    /**
+     * 初始化新增设备弹窗数据
+     */
+    function resetModalPanel() {
+        imageUploader.reset();
+        $('#imagesList').empty();
+    }
     
-    function initCategory(){
+    /**
+     * 向分类下拉列表插入数据
+     * @param {Number} id 
+     * @param {String} value 
+     */
+    function addCategoryToSelectOp(id, value) {
+        $('#categoryId').append('<option value="' + id + '" >' + value + '</option>');
+    }
+
+    /**
+     * 删除分类下拉列表中的选项
+     * @param {Number} id 
+     */
+    function deleteCategoryInSelectOp(id) {
+        $('#categoryId').children('option[value="' + id + '"]').remove();
+    }
+
+    /**
+     * 向分类面板中插入数据
+     * @param {Number} id 
+     * @param {String} value 
+     */
+    function addCategoryToPanel(id, value) {
+        const newCategory = '<div categoryId="' + id + '" class="alert alert-info alert-dismissible  pull-left m-r-7" role="alert">' +
+            '<button type="button" class="close category-del-btn" data-dismiss="" aria-label="">' +
+            '<span aria-hidden="true">&times;</span></button>' +
+            '<strong>' + value + '</strong>&nbsp;</div>';
+        //向页面插入数据
+        $('.taglist').append(newCategory);
+    }
+
+    function initCategory() {
 
     }
     /** 
@@ -182,36 +362,36 @@ $(document).ready(function () {
      *渲染编辑仪器信息时 信息弹窗的数据
      * @param {Array} data 当前一排的数据信息
      */
-    function renderModalData(data){
-          var editForm = document.getElementById('edit-device-form');
-          editForm['eqName'].value = data[1];
-          editForm['eqNumber'].value = data[2];
-          editForm['introduce'].value = data[4];
-          editForm['amount'].value = data[5];
-          
-    }      
+    function renderModalData(data) {
+        var editForm = document.getElementById('edit-device-form');
+        editForm['eqName'].value = data[1];
+        editForm['eqNumber'].value = data[2];
+        editForm['introduce'].value = data[4];
+        editForm['amount'].value = data[5];
+    }
     /**
      * 向设备表添加一条数据
      * @param {object} data 
      */
     function addDataToDeviceTable(data) {
+        let imgArr = data.images;
+        imgArr = JSON.parse(imgArr);
+        const imgUrl = imgArr.length == 0 ? 'assets/images/testImg.png' : (baseUrl + 'file/image?picName=' + imgArr[0]);
         var $btns = '<div deviceId="' + data.eqId + '" style="display:flex;"><button type="button" class="btn btn-primary edit-btn" \
-             data-toggle="modal" data-target="#deviceModalEdit">编辑</button>' + 
+             data-toggle="modal" data-target="#deviceModalEdit">编辑</button>' +
             '<button class="btn del-btn btn-danger" style="margin-left:10px;"> 删除</button></div>'
-        var $img = '<img src="' + data.images + '" style="width:100px;height:100px;">'
-        console.log();
+        var $img = '<img src="' + imgUrl + '" style="width:100px;height:100px;">';
         var rowNode = deviceTable.row.add([
             $img,
             data.eqName,
             data.eqNumber,
-            catgoryData.get(data.categoryId % 3),
+            catgoryData.get(data.categoryId),
             data.introduce,
             data.amount,
             data.loan,
             data.numberUse,
             data.eqAdmin,
-            (new Date()).Format("yyyy-MM-dd hh:mm:ss"),
-            // data.eqDate,
+            (new Date(data.eqDate)).Format("yyyy-MM-dd hh:mm:ss"),
             $btns
         ]).draw()
             .node();
@@ -227,28 +407,74 @@ $(document).ready(function () {
     async function loadInitData() {
         var datas = [];
         //每次进入该页面都会获取所有的设备信息
-        await $.ajax({
-            url: 'http://test.com',
-            type: 'get',
-            dataType: 'json'
-        }).done(function (res, status) {
-            datas = res.data;
-        });
-        console.log(datas);
+        //testData
+        // await $.ajax({
+        //     url: 'http://test.com',
+        //     type: 'get',
+        //     dataType: 'json'
+        // }).done(function (res, status) {
+        //     datas = res.data;
+        // });
 
-        datas.forEach((key) => {
-            addDataToDeviceTable(key);
+        await $.ajax({
+            url: baseUrl + "devices/" + account,
+            type: "GET",
+            success: function (res) {
+                if (res.code == 200) {
+                    datas = res.data.equipmentList;
+                    datas.forEach((key) => {
+                        addDataToDeviceTable(key);
+                    })
+                } else {
+                    switch (res.code) {
+                        case 201:
+                            alert('没有权限');
+                            break;
+                        case 206:
+                        case 500:
+                            alert('未知异常');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            },
+            error: function () {
+                alert("网络错误")
+            }
         })
+        // console.log(datas);
+
+        // datas.forEach((key) => {
+        //     addDataToDeviceTable(key);
+        // })
     }
 
     /**
      * 获取分类数据
      */
     async function getCateGoryData() {
-        //ajax
-        catgoryData.set(0, "音响");
-        catgoryData.set(1, "相机");    
-        catgoryData.set(2, "录音");
+        await $.ajax({
+            url: baseUrl + 'categorys/' + account,
+            type: 'get',
+            success: function (res) {
+                if (res.code == 200) {
+                    const data = res.data.category;
+                    data.forEach((key) => {
+                        catgoryData.set(key.cgId, key.cgName);
+                        addCategoryToPanel(key.cgId, key.cgName);
+                        addCategoryToSelectOp(key.cgId, key.cgName);
+                    })
+                }
+            },
+            error: function () {
+                alert("网络错误");
+            }
+        });
+        //testData
+        // catgoryData.set(0, "音响");
+        // catgoryData.set(1, "相机");
+        // catgoryData.set(2, "录音");
     }
 
     /**
@@ -279,11 +505,11 @@ $(document).ready(function () {
                 deviceObj[formArr[i].name] = formArr[i].value;
             }
         }
-        
+
         return deviceObj;
     }
 
-    
+
 
     //==================================图片上传部分=====================//
     /**
@@ -296,13 +522,13 @@ $(document).ready(function () {
         //选择完文件或是否自动上传
         auto: false,
         //swf文件路径
-        swf: 'Uploader.swf',
+        swf: '../plunge/Uploader.swf',
         // 上传并发数。允许同时最大上传进程数[默认值：3]   即上传文件数
         threads: 3,
         //文件接收服务端接口
-        server: baseUrl + "file/save",
+        server: baseUrl + "file/upload",
         // 选择文件的按钮
-        pick: {id:'#imagePicker'},
+        pick: { id: '#imagePicker' },
         //上传请求的方法
         method: "POST",
         // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
@@ -373,6 +599,46 @@ $(document).ready(function () {
             $success = $('<div class="success"></div>').appendTo($li);
         }
         $success.text('上传成功');
+        uploadImg.push(response.data);
+
+        //图片上传结束
+        if (imageUploader.getStats().progressNum == 0) {
+            var data = $('#add-device-form').serializeArray();
+
+            //把获取的数组转化为对象 把获取的图片地址剪切进来
+            data = formatObj(data);
+            //管理员账号设置
+            data.eqAdmin = account;
+            //图片
+            data.images = JSON.stringify(uploadImg);
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                data: JSON.stringify(
+                    data
+                ),
+                success: function (res) {
+                    if (res.code == 200) {
+                        alert("新增成功");
+                        addDataToDeviceTable(res.data);
+                    } else {
+                        switch (res.code) {
+                            case 201:
+                                alert('此设备号编号已经存在,请重新设置');
+                                break;
+                            default:
+                        }
+                    }
+                    uploadImg = [];
+                },
+                error: function () {
+                    alert("网络错误")
+                }
+            })
+        }
 
     });
 
