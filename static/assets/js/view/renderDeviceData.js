@@ -54,6 +54,8 @@ $(document).ready(function () {
 
     })
 
+
+
     /**
      * 确认新增设备
      **/
@@ -117,8 +119,142 @@ $(document).ready(function () {
         $('#sureUpload').click();
     })
 
+
     /**
-     * 删除一条数据
+     * 管理/查看关联设备数据
+     */
+    $('#deviceTable tbody').on('click', '.relation-btn', function (e) {
+        //当前操作的行
+        const $row = deviceTable.row($(this).parents('tr'));
+        //待查询的设备id
+        const deviceId = $($row.data()[10]).attr("deviceId");
+
+        const $datas = deviceTable.data();
+
+        const categoryId3 = $('#categoryId3').val();
+
+        loadEqCorrections(deviceId);
+
+        //判断面板数据是否为空
+        let isEmpty = true;
+
+        $("#unexist").empty();
+
+        for (let i = 0; i < $datas.length; i++) {
+            if ($($datas[i][10]).attr('categoryId') == categoryId3) {
+                addDataForRelationPanel('unexist', $($datas[i][10]).attr("deviceId"), $datas[i][1], $datas[i][4]);
+                isEmpty = false;
+            }
+        }
+        if (isEmpty) {
+            $('#unexistArea').children('p.emptyTips').show();
+        } else {
+            $('#unexistArea').children('p.emptyTips').hide();
+        }
+        // 打开弹窗
+        $('#correlationsModal').modal('show');
+
+
+        /**
+         * 当未关联分类发生改变时刷新面板数据
+         */
+        $('#categoryId3').unbind('change');
+        $('#categoryId3').on('change', function (e) {
+            const categoryId3 = e.target.value;
+            isEmpty = true;
+            $("#unexist").empty();
+
+            for (let i = 0; i < $datas.length; i++) {
+                if ($($datas[i][10]).attr('categoryId') == categoryId3) {
+                    addDataForRelationPanel('unexist', $($datas[i][10]).attr("deviceId"), $datas[i][1], $datas[i][4]);
+                    isEmpty = false;
+                }
+            }
+
+            if (isEmpty) {
+                $('#unexistArea').children('p.emptyTips').show();
+            } else {
+                $('#unexistArea').children('p.emptyTips').hide();
+            }
+
+        });
+
+        /**
+         * 添加未关联设备
+         */
+        $('#unexistArea').unbind('click');
+        $('#unexistArea').on('click', 'button.relation-add-btn', function (e) {
+            const relationDeviceId = $(this).parent('li').attr('deviceId');
+
+            //判断是否已经存在
+            if ($('#exist').children('li[deviceid="' + relationDeviceId + '"]').length == 0) {
+                $.ajax({
+                    url: baseUrl + "correlations/" + account,
+                    type: "POST",
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    },
+                    data: JSON.stringify({
+                        eqParentId: deviceId,
+                        eqChildId: relationDeviceId
+                    }),
+                    success: function (res) {
+                        if (res.code === 200) {
+                            const eqData = getDeviceDataById(relationDeviceId);
+                            addDataForRelationPanel("exist", relationDeviceId, eqData[1], eqData[4], res.data.eqCoId);
+                            //隐藏掉提示框
+                            $('#existArea').children('p.emptyTips').hide();
+                        } else {
+                            alert(res.errMsg);
+                        }
+                    },
+                    error: function () {
+                        alert("网络异常");
+                    }
+                })
+            } else {
+                alert("此关联设备已存在");
+            }
+
+        })
+    })
+
+
+    /**
+     * 删除关联设备
+     */
+    $('#exist').on('click', '.relation-del-btn', function (e) {
+
+        const eqCoId = $(this).parent('li').attr('eqcoid');
+
+        const $li = $(this).parent('li');
+        $.ajax({
+            url: baseUrl + "correlations/" + account,
+            type: "DELETE",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            data: JSON.stringify({
+                eqCoId: eqCoId
+            }),
+            success: function (res) {
+                if(res.code){
+                    $li.remove();
+                    if($('#exist').children('li').length==0){
+                        //显示提示框
+                        $('#existArea').children('p.emptyTips').show();
+                    }
+                }
+            },
+            error: function () {
+                alert("网络异常");
+            }
+        })
+
+    })
+
+    /**
+     * 删除一条设备数据
      */
     $('#deviceTable tbody').on('click', '.del-btn', function (e) {
         //当前操作的行
@@ -162,11 +298,10 @@ $(document).ready(function () {
         }
     })
 
+
     /**
-     * 
      * 对已经在表中的数据进行编辑
      */
-
     $('#deviceTable tbody').on('click', '.edit-btn', function (e) {
         //当前操作的行
         const $row = deviceTable.row($(this).parents('tr'));
@@ -176,6 +311,45 @@ $(document).ready(function () {
         const editData = $($row.data());
         //把数据填充到表单之中
         renderModalData(editData);
+
+        /**
+         * 如果确认编辑
+         */
+        $('#edit-device-btn').unbind('click');
+        $('#edit-device-btn').on('click', function (e) {
+            var data = $('#edit-device-form').serializeArray();
+            data = formatObj(data);
+            data.eqId = deviceId;
+            //判断用户填写的信息是否符合规范
+            for (prop in data) {
+                if (data[prop] == '') {
+                    alert("请把设备信息填写完整！！");
+                    return;
+                }
+            }
+
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "PUT",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                data: JSON.stringify(
+                    data
+                ),
+                success: function (res) {
+                    if (res.code == 200) {
+                        alert("编辑成功,查看最新数据 请刷新列表");
+                        // $('#deviceModalEdit').modal('hide');
+                    } else {
+                        alert(res.errMsg);
+                    }
+                },
+                error: function () {
+                    alert("网络错误")
+                }
+            })
+        })
     })
 
     /**
@@ -256,7 +430,7 @@ $(document).ready(function () {
         var order = 3;
         var key = true;
         var $data = deviceTable.data();
-        for (var i = 0; i < len; i++) {
+        for (var i = 0; i < $data.length; i++) {
             if ($data[i][order] == categoryName) {
                 alert("删除失败，仍然有当前分类设备在表格中!");
                 key = false;
@@ -310,7 +484,7 @@ $(document).ready(function () {
     /**
      * 初始话新增设备的弹窗面板
      */
-    $('#addDevice').on('click',function () {
+    $('#addDevice').on('click', function () {
         resetModalPanel();
     })
     //===========================function部分===========================
@@ -322,14 +496,95 @@ $(document).ready(function () {
         imageUploader.reset();
         $('#imagesList').empty();
     }
-    
+
+
     /**
-     * 向分类下拉列表插入数据
-     * @param {Number} id 
-     * @param {String} value 
+     * 为相关联设备面板添加数据
+     * @param {String} panelType exist|unexist 
+     * @param {Number} deviceId 设备id
+     * @param {String} deviceName 设备名称
+     * @param {String} deviceIntroduce 设备简介
+     * @param {String} eqCoId 关联id
      */
-    function addCategoryToSelectOp(id, value) {
-        $('#categoryId').append('<option value="' + id + '" >' + value + '</option>');
+    function addDataForRelationPanel(panelType, deviceId, deviceName, deviceIntroduce, eqCoId) {
+        let $li = "";
+        switch (panelType) {
+            case 'exist':
+                $li += (
+                    '<li eqCoId="' + eqCoId + '"  title="' + deviceIntroduce + '" deviceId="' + deviceId + '" class="alert alert-info alert-dismissible pull-left m-r-7">' +
+                    '<button type="button" class="close relation-del-btn" data-dismiss="" aria-label="Close">' +
+                    '<span aria-hidden="true">x</span>' +
+                    ' </button>' +
+                    '<strong class="categoryName">' + deviceName + '</strong>' +
+                    '</li>');
+                break;
+            case 'unexist':
+                $li += (
+                    '<li title="' + deviceIntroduce + '" deviceId="' + deviceId + '" class="alert alert-warning alert-dismissible pull-left m-r-7">' +
+                    '<button type="button" class="close relation-add-btn" data-dismiss="" aria-label="Close">' +
+                    '<span aria-hidden="true">√</span>' +
+                    ' </button>' +
+                    '<strong class="categoryName">' + deviceName + '</strong>' +
+                    '</li>');
+                break;
+            default:
+                return;
+        }
+        $('#' + panelType).append($li);
+
+    }
+
+
+    /**
+     * 通过设备id获取设备基本数据
+     * @param {Number} deviceId 
+     */
+    function getDeviceDataById(deviceId) {
+        const $datas = deviceTable.data();
+        for (let i = 0; i < $datas.length; i++) {
+            if ($($datas[i][10]).attr('deviceId') == deviceId) {
+                return $datas[i];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 加载关联设备信息
+     * @param {Number} deviceId 
+     */
+    async function loadEqCorrections(deviceId) {
+        $("#exist").empty();
+        await $.ajax({
+            url: baseUrl + "correlations/" + account,
+            type: "GET",
+            async: true,
+            data: {
+                eqParentId: deviceId
+            },
+            success: function (res) {
+                if (res.code === 200) {
+                    const eqCorrelations = res.data.eqCorrelations;
+                    if (eqCorrelations.length === 0) {
+                        $('#existArea').children('p.emptyTips').show();
+                    } else {
+                        $('#existArea').children('p.emptyTips').hide();
+                        eqCorrelations.forEach((key) => {
+                            //获取设备基本信息
+                            const eqData = getDeviceDataById(key.eqChildId);
+                            if (eqData) {
+                                addDataForRelationPanel("exist", key.eqChildId, eqData[1], eqData[4], key.eqCoId);
+                            }
+                        })
+                    }
+                } else {
+                    alert(res.errMsg);
+                }
+            },
+            error: function () {
+                alert("网络异常");
+            }
+        })
     }
 
     /**
@@ -338,6 +593,30 @@ $(document).ready(function () {
      */
     function deleteCategoryInSelectOp(id) {
         $('#categoryId').children('option[value="' + id + '"]').remove();
+        $('#categoryId2').children('option[value="' + id + '"]').remove();
+        $('#categoryId3').children('option[value="' + id + '"]').remove();
+    }
+
+
+    /**
+     * 向分类下拉列表插入数据
+     * @param {Number} id 
+     * @param {String} value 
+     */
+    function addCategoryToSelectOp(id, value) {
+        $('#categoryId').append('<option value="' + id + '" >' + value + '</option>');
+        $('#categoryId2').append('<option value="' + id + '" >' + value + '</option>');
+        $('#categoryId3').append('<option value="' + id + '" >' + value + '</option>');
+    }
+
+    /**
+     * 删除分类下拉列表中的选项
+     * @param {Number} id 
+     */
+    function deleteCategoryInSelectOp(id) {
+        $('#categoryId').children('option[value="' + id + '"]').remove();
+        $('#categoryId2').children('option[value="' + id + '"]').remove();
+        $('#categoryId3').children('option[value="' + id + '"]').remove();
     }
 
     /**
@@ -357,6 +636,7 @@ $(document).ready(function () {
     function initCategory() {
 
     }
+
     /** 
      *
      *渲染编辑仪器信息时 信息弹窗的数据
@@ -366,9 +646,15 @@ $(document).ready(function () {
         var editForm = document.getElementById('edit-device-form');
         editForm['eqName'].value = data[1];
         editForm['eqNumber'].value = data[2];
+        catgoryData.forEach((val, key) => {
+            if (val === data[3]) {
+                editForm['categoryId'].value = key;
+            }
+        })
         editForm['introduce'].value = data[4];
         editForm['amount'].value = data[5];
     }
+
     /**
      * 向设备表添加一条数据
      * @param {object} data 
@@ -377,9 +663,18 @@ $(document).ready(function () {
         let imgArr = data.images;
         imgArr = JSON.parse(imgArr);
         const imgUrl = imgArr.length == 0 ? 'assets/images/testImg.png' : (baseUrl + 'file/image?picName=' + imgArr[0]);
-        var $btns = '<div deviceId="' + data.eqId + '" style="display:flex;"><button type="button" class="btn btn-primary edit-btn" \
-             data-toggle="modal" data-target="#deviceModalEdit">编辑</button>' +
-            '<button class="btn del-btn btn-danger" style="margin-left:10px;"> 删除</button></div>'
+        var $btns = '<div categoryId="' + data.categoryId + '" deviceId="' + data.eqId + '" style="display:flex;"><button type="button" class="btn btn-primary " ' +
+            'data-toggle="modal" data-target="#deviceModalEdit">编辑</button>' +
+            '<button class="btn relation-btn btn-success" style="margin-left:10px;"> 关联设备</button></div>' +
+            '<button class="btn del-btn btn-danger" style="margin-left:10px;"> 删除</button></div>';
+
+        var btns2=
+            '<div class="btn-group btn-group-sm fw-flex" categoryId="' + data.categoryId + '" deviceId="' + data.eqId + '">'+
+                '<button data-toggle="modal" data-target="#deviceModalEdit" title="编辑" type="button" class="btn btn-info edit-btn"><span class="ti-pencil-alt2 "></span></button>'+
+                '<button title="关联设备" type="button" class="btn relation-btn btn-success"><span class="ti-layout-grid3-alt "></span></button>'+
+                '<button title="删除" type="button" class="btn del-btn btn-danger"><span class="ti-trash "></span></button>'+
+            '</div>'
+
         var $img = '<img src="' + imgUrl + '" style="width:100px;height:100px;">';
         var rowNode = deviceTable.row.add([
             $img,
@@ -392,7 +687,7 @@ $(document).ready(function () {
             data.numberUse,
             data.eqAdmin,
             (new Date(data.eqDate)).Format("yyyy-MM-dd hh:mm:ss"),
-            $btns
+            btns2
         ]).draw()
             .node();
         // $(rowNode)

@@ -3065,27 +3065,27 @@ tbody tr td:last-child {
 .alert-primary {
   background-color: #b3c0ff;
   border-color: #b3c0ff;
-  color: #5873fe;
+  /* color: #5873fe; */
 }
 .alert-success {
   background-color: #71dd8a;
   border-color: #71dd8a;
-  color: #28a745;
+  /* color: #28a745; */
 }
 .alert-warning {
   background-color: #f5e0ac;
   border-color: #f5e0ac;
-  color: #e7b63a;
+  /* color: #e7b63a; */
 }
 .alert-danger {
   background-color: #efa2a9;
   border-color: #efa2a9;
-  color: #dc3545;
+  /* color: #dc3545; */
 }
 .alert-pink {
   background-color: #f8e4fb;
   border-color: #f8e4fb;
-  color: #e6a1f2;
+  /* color: #e6a1f2; */
 }
 .alert-dismissable .close,
 .alert-dismissible .close {
