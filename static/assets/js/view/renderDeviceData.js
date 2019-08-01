@@ -865,7 +865,7 @@ $(document).ready(function () {
             $li.children('div.state').remove();
             $progress = $('<div class="progress state"></div>').appendTo($li);
         }
-        $progress.text('上传中');
+        $progress.text('上传中:' + Math.round(percentage*100)+"%");
     });
 
 
