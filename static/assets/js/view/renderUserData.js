@@ -79,10 +79,10 @@ $(document).ready(function () {
                 type: 'post',
                 data: JSON.stringify(userData),
                 success: function (res) {
-                    if(res.code===200){
+                    if (res.code === 200) {
                         addDataToUserTable(res.data.user);
                         alert('增加成功');
-                    }else if(res.code===201){
+                    } else if (res.code === 201) {
                         alert('用户已存在');
                     }
                 }
@@ -217,15 +217,21 @@ $(document).ready(function () {
                     return;
                 }
             }
-            // bug
+
             $.ajax({
                 url: baseUrl + 'user/userinfo/' + account,
                 type: 'PUT',
                 data: JSON.stringify(data)
             }).done(res => {
-                console.log(res);
-            }).error(err => {
-                console.error(err);
+                if (res.code === 200) {
+                    let nowData = $row.data();
+                    data = $('#edit-user-form').serializeArray();
+                    data.forEach((v, i) => {
+                        nowData[i] = v.value;
+                    })
+                    $row.data(nowData).draw();
+                    alert('更新成功');
+                }
             })
         })
     })

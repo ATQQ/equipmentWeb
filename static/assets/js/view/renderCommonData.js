@@ -64,7 +64,6 @@ function isLogin() {
             token = null;
         }
     } else {
-        console.log(token);
         if (!token) {
             window.location.replace('./login.html');
         }
