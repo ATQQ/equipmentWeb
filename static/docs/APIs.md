@@ -174,3 +174,56 @@
  }
  ```
 
+
+## 用户获取订单列表
+* url：**order/order/{account}**
+* method:*$GET$*
+### 响应示例
+1. 获取所属订单列表(管理员获取所有的/普通用户获取所属的)
+```js
+{
+    "code":200,
+    "data":{
+        "orders":[
+            {
+                "ordrId":3,
+                "orderNumber":"20343434343432",
+                "eqId":3,
+                "orderStart":32213131313,
+                "orderEnd":23232121331,
+                "orderLendDays":5,
+                "number":4,
+                "useNumber":301731061422,
+                "orderStatus":-1
+            },
+            {
+                "ordrId":3,
+                "orderNumber":"20343434343432",
+                "eqId":3,
+                "orderStart":32213131313,
+                "orderEnd":23232121331,
+                "orderLendDays":5,
+                "number":4,
+                "useNumber":301731061422,
+                "orderStatus":-1
+            }
+        ]
+    }
+    "errMsg":"OK"
+}
+```
+
+2. 没有权限
+ ```js
+{
+    "code":202,
+	"errMsg":"no power"	
+}
+```
+3. 服务器端错误
+ ```js
+ {
+    "code":500,
+	"errMasg"："unKnown fault"
+ }
+ ```

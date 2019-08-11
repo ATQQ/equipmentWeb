@@ -63,7 +63,8 @@
 
                         <div class="dropdown dib">
                             <div class="header-icon" data-toggle="dropdown">
-                                <span class="user-avatar">John
+                                <span class="user-avatar" id="logout">
+                                    点击注销登录
                                 </span>
                             </div>
                         </div>
@@ -72,6 +73,7 @@
             </div>
         </div>
     </div>
+
     <div class="content-wrap">
 
         <div class="container-fluid">
@@ -140,7 +142,7 @@
                         <div class="form-group">
                             <p>
                                 <label for="userId">学号</label>
-                                <input type="text" name="userId" class="form-control" placeholder="用户学号">
+                                <input type="text" name="userNumber" class="form-control" placeholder="用户学号">
                             </p>
                         </div>
                         <div class="form-group">
@@ -187,8 +189,8 @@
                     <form action="#" class="edit-user-form" id="edit-user-form">
                         <div class="form-group">
                             <p>
-                                <label for="userId">学号</label>
-                                <input type="text" name="userId" class="form-control" placeholder="用户学号">
+                                <label for="userNumber">学号</label>
+                                <input type="text" name="userNumber" class="form-control" placeholder="用户学号">
                             </p>
                         </div>
                         <div class="form-group">
@@ -209,7 +211,7 @@
                                 <input type="text" name="userProfession" class="form-control" placeholder="用户专业">
                             </p>
                         </div>
-                 
+
                         <div>
                             <p class="fw-flex fw-c-sa">
                                 <button type="button" id="edit-user-btn"

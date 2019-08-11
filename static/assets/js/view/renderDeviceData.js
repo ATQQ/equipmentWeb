@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    var baseUrl = "http://localhost:8088/api/equipmentServer/";
 
     //管理员账号
     var account = "admin";

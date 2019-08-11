@@ -1,11 +1,12 @@
 $(document).ready(function () {
 
-    var baseUrl = "";
 
     //管理员账号
     var account = "admin";
 
+    // 表头数据
     const headers = ['学号/工号', '姓名', '学院', '专业', '手机号', '状态', '押金金额', '操作'];
+
 
 
     //mock数据
@@ -50,8 +51,11 @@ $(document).ready(function () {
 
     //==========================event==============================================
 
+    /**
+     * 新增用户按钮
+     */
     $("#add-user-btn").on('click', function (e) {
-        e.preventDefault();
+        e.preventDefault(); //阻止默认时间
         var userData = $('#add-user-form').serializeArray();
         //获取用户输入
         var key = true;
@@ -68,33 +72,54 @@ $(document).ready(function () {
             }
         }
         //填写完整直接上传数据
+
         if (key) {
             $.ajax({
-
+                url: baseUrl + 'user/user',
+                type: 'post',
+                data: JSON.stringify(userData),
+                success: function (res) {
+                    if(res.code===200){
+                        addDataToUserTable(res.data.user);
+                        alert('增加成功');
+                    }else if(res.code===201){
+                        alert('用户已存在');
+                    }
+                }
             })
         }
     })
 
     /**
-         * 删除一条用户数据
-         */
+     * 删除一条用户数据
+     */
     $('#userTable tbody').on('click', '.del-btn', function (e) {
         //当前操作的行
         const $row = userTable.row($(this).parents('tr'));
         //待删除的设备id
-        const userId = $($row.data()[6]).attr("userId");
-        // console.log(deviceId);
+        const userId = $($row.data()[7]).attr("userId");
         if (confirm("确认删除此条数据吗?")) {
-
             $.ajax({
-
+                url: baseUrl + 'user/users',
+                type: 'DELETE',
+                data: JSON.stringify({
+                    "userId": userId
+                })
+            }).done(res => {
+                if (res.code === 200) {
+                    $row
+                        .remove()
+                        .draw();
+                } else {
+                    alert("没有权限");
+                }
             })
 
         }
     })
     /**
-         * 改变用户当前操作状态
-         */
+     * 改变用户当前操作状态
+     */
     $('#userTable tbody').on('click', '.state-btn', function (e) {
         //当前操作的行
         const $row = userTable.row($(this).parents('tr'));
@@ -112,8 +137,8 @@ $(document).ready(function () {
 
     })
     /**
-         * 批量导入
-         */
+     * 批量导入
+     */
     $('#addManyUser').on('click', function (e) {
 
     })
@@ -141,6 +166,10 @@ $(document).ready(function () {
      */
     function addDataToUserTable(data) {
 
+        const powerMap = new Map();
+        powerMap.set(1, "管理员")
+        powerMap.set(-1, "冻结")
+        powerMap.set(0, "正常")
         var btns2 =
             '<div class="btn-group btn-group-sm fw-flex m-l-45" UserId="' + data.userId + '">' +
             '<button data-toggle="modal" data-target="#userModalEdit" title="编辑" type="button" class="btn btn-info edit-btn"><span class="ti-pencil-alt2 "></span></button>' +
@@ -152,9 +181,9 @@ $(document).ready(function () {
             data.userName,
             data.userAcademy,
             data.userProfession,
-            data.userPhone,
-            data.userState,
-            0,
+            data.userPhone ? data.userPhone : '尚未绑定',
+            powerMap.get(data.userPower),
+            data.deposit,
             btns2,
         ]).draw()
             .node();
@@ -167,7 +196,7 @@ $(document).ready(function () {
         //当前操作的行
         const $row = userTable.row($(this).parents('tr'));
         //待编辑的设备id
-        const userId = $($row.data()[6]).attr("userId")
+        const userId = $($row.data()[7]).attr('userid');
         //待编辑的设备的所有信息
         const editData = $($row.data());
         //把数据填充到表单之中
@@ -178,7 +207,7 @@ $(document).ready(function () {
          */
         $('#edit-user-btn').unbind('click');
         $('#edit-user-btn').on('click', function (e) {
-            var data = $('#edit-user-form').serializeArray();
+            let data = $('#edit-user-form').serializeArray();
             data = formatObj(data);
             data.userId = userId;
             //判断用户填写的信息是否符合规范
@@ -188,8 +217,15 @@ $(document).ready(function () {
                     return;
                 }
             }
-
+            // bug
             $.ajax({
+                url: baseUrl + 'user/userinfo/' + account,
+                type: 'PUT',
+                data: JSON.stringify(data)
+            }).done(res => {
+                console.log(res);
+            }).error(err => {
+                console.error(err);
             })
         })
     })
@@ -229,13 +265,25 @@ $(document).ready(function () {
     function loadInitUserData() {
         var datas = [];
         //测试数据
+        // $.ajax({
+        //     url: 'http://testUser.com',
+        //     type: "GET",
+        //     dataType: 'json'
+        // }).done(function (res, status) {
+        //     datas = res.data;
+        //     datas.forEach(element => {
+        //         addDataToUserTable(element);
+        //     });
+        // })
 
+        //正式接口
         $.ajax({
-            url: 'http://testUser.com',
+            url: baseUrl + "user/users/" + account,
             type: "GET",
             dataType: 'json'
         }).done(function (res, status) {
-            datas = res.data;
+            datas = res.data.userList;
+            // console.log(datas);
             datas.forEach(element => {
                 addDataToUserTable(element);
             });
