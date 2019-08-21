@@ -36,15 +36,19 @@ $(document).ready(function () {
     var deviceTable = initDataTables();
 
     var catgoryData = new Map();
-    /**
-     *获取分类的数据
-     */
-    getCateGoryData();
 
-    /**
-     * 初始化页面数据
-     */
-    loadInitData();
+    async function initPage() {
+        /**
+        *获取分类的数据
+        */
+        await getCateGoryData();
+        /**
+         * 获取设备设备数据
+         */
+        await getDeviceData();
+    }
+
+    initPage();
 
     //==========================event==============================================
 
@@ -237,9 +241,9 @@ $(document).ready(function () {
                 eqCoId: eqCoId
             }),
             success: function (res) {
-                if(res.code){
+                if (res.code) {
                     $li.remove();
-                    if($('#exist').children('li').length==0){
+                    if ($('#exist').children('li').length == 0) {
                         //显示提示框
                         $('#existArea').children('p.emptyTips').show();
                     }
@@ -632,9 +636,7 @@ $(document).ready(function () {
         $('.taglist').append(newCategory);
     }
 
-    function initCategory() {
 
-    }
 
     /** 
      *
@@ -667,11 +669,11 @@ $(document).ready(function () {
             '<button class="btn relation-btn btn-success" style="margin-left:10px;"> 关联设备</button></div>' +
             '<button class="btn del-btn btn-danger" style="margin-left:10px;"> 删除</button></div>';
 
-        var btns2=
-            '<div class="btn-group btn-group-sm fw-flex" categoryId="' + data.categoryId + '" deviceId="' + data.eqId + '">'+
-                '<button data-toggle="modal" data-target="#deviceModalEdit" title="编辑" type="button" class="btn btn-info edit-btn"><span class="ti-pencil-alt2 "></span></button>'+
-                '<button title="关联设备" type="button" class="btn relation-btn btn-success"><span class="ti-layout-grid3-alt "></span></button>'+
-                '<button title="删除" type="button" class="btn del-btn btn-danger"><span class="ti-trash "></span></button>'+
+        var btns2 =
+            '<div class="btn-group btn-group-sm fw-flex" categoryId="' + data.categoryId + '" deviceId="' + data.eqId + '">' +
+            '<button data-toggle="modal" data-target="#deviceModalEdit" title="编辑" type="button" class="btn btn-info edit-btn"><span class="ti-pencil-alt2 "></span></button>' +
+            '<button title="关联设备" type="button" class="btn relation-btn btn-success"><span class="ti-layout-grid3-alt "></span></button>' +
+            '<button title="删除" type="button" class="btn del-btn btn-danger"><span class="ti-trash "></span></button>' +
             '</div>'
 
         var $img = '<img src="' + imgUrl + '" style="width:100px;height:100px;">';
@@ -698,22 +700,23 @@ $(document).ready(function () {
     * 加载页面初始化数据
     * @param {*} equipmentData 实验器材的全部数据
     */
-    async function loadInitData() {
-        var datas = [];
-        //每次进入该页面都会获取所有的设备信息
-        //testData
-        // await $.ajax({
-        //     url: 'http://test.com',
-        //     type: 'get',
-        //     dataType: 'json'
-        // }).done(function (res, status) {
-        //     datas = res.data;
-        // });
+    function getDeviceData() {
+        return new Promise(resolve => {
+            var datas = [];
+            //每次进入该页面都会获取所有的设备信息
+            //testData
+            // await $.ajax({
+            //     url: 'http://test.com',
+            //     type: 'get',
+            //     dataType: 'json'
+            // }).done(function (res, status) {
+            //     datas = res.data;
+            // });
 
-        await $.ajax({
-            url: baseUrl + "devices/" + account,
-            type: "GET",
-            success: function (res) {
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "GET"
+            }).done(res => {
                 if (res.code == 200) {
                     datas = res.data.equipmentList;
                     datas.forEach((key) => {
@@ -732,11 +735,10 @@ $(document).ready(function () {
                             break;
                     }
                 }
-            },
-            error: function () {
-                alert("网络错误")
-            }
+                resolve();
+            })
         })
+
         // console.log(datas);
 
         // datas.forEach((key) => {
@@ -747,11 +749,12 @@ $(document).ready(function () {
     /**
      * 获取分类数据
      */
-    async function getCateGoryData() {
-        await $.ajax({
-            url: baseUrl + 'categorys/' + account,
-            type: 'get',
-            success: function (res) {
+    function getCateGoryData() {
+        return new Promise(resolve => {
+            $.ajax({
+                url: baseUrl + 'categorys/' + account,
+                type: 'get'
+            }).done(res => {
                 if (res.code == 200) {
                     const data = res.data.category;
                     data.forEach((key) => {
@@ -760,11 +763,10 @@ $(document).ready(function () {
                         addCategoryToSelectOp(key.cgId, key.cgName);
                     })
                 }
-            },
-            error: function () {
-                alert("网络错误");
-            }
-        });
+                resolve();
+            });
+        })
+
         //testData
         // catgoryData.set(0, "音响");
         // catgoryData.set(1, "相机");
@@ -787,7 +789,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
 
@@ -864,7 +866,7 @@ $(document).ready(function () {
             $li.children('div.state').remove();
             $progress = $('<div class="progress state"></div>').appendTo($li);
         }
-        $progress.text('上传中:' + Math.round(percentage*100)+"%");
+        $progress.text('上传中:' + Math.round(percentage * 100) + "%");
     });
 
 
