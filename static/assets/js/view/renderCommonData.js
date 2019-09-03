@@ -1,5 +1,6 @@
 var baseUrl = "http://localhost:8088/api/equipmentServer/";
 let token = null;
+account='admin'
 /**
  * 全局默认设置
  */

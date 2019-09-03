@@ -84,24 +84,24 @@
                             </div>
                             <div class="col-lg-12 ">
                             </div>
-                            <div class="col-lg-12  fw-flex fw-warp orderManage">
-                                <div class="alert alert-info alert-primary pull-left m-r-25 " role="alert">
+                            <div class="col-lg-12  fw-flex fw-warp" id="orderManage">
+                                <div orderStatus='666' class="alert alert-info alert-primary pull-left m-r-25 " role="alert">
                                 <strong class="allOrder order">全部订单</strong>
                                 </div>
-                                <div class="alert alert-info alert-danger pull-left m-r-25" role="alert">
+                                <div orderStatus='-2' class="alert alert-info alert-danger pull-left m-r-25" role="alert">
                                 <strong class="cancelOrder order">已取消或未通过订单</strong>
                                 </div>
                                 
-                                <div class="alert alert-info alert-warning pull-left m-r-25" role="alert">
+                                <div orderStatus='-1' class="alert alert-info alert-warning pull-left m-r-25" role="alert">
                                 <strong class="reserveingOrder order">预约中订单</strong>
                                 </div>
-                                <div class="alert alert-info alert-dismissable pull-left m-r-25" role="alert">
+                                <div orderStatus='0' class="alert alert-info alert-dismissable pull-left m-r-25" role="alert">
                                 <strong class="waitOrder order">待取订单</strong>
                                 </div>
-                                <div class="alert alert-info alert-pink pull-left m-r-25" role="alert">
+                                <div orderStatus='1' class="alert alert-info alert-pink pull-left m-r-25" role="alert">
                                 <strong class="noReturnedOrder order">待归还订单</strong>
                                 </div>
-                                <div class="alert alert-info alert-success pull-left m-r-25 " role="alert">
+                                <div orderStatus='2' class="alert alert-info alert-success pull-left m-r-25 " role="alert">
                                 <strong class="returnedOrder order">已归还订单</strong>
                                 </div>        
                             </div>
