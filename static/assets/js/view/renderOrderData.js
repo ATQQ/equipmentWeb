@@ -1,10 +1,11 @@
 $(document).ready(function () {
 
     let datas = null;//未分类的数据
+    let deviceList = [];//设备数据
     //管理员账号
     let account = "admin";
 
-    const allHeaders = ['订单编号', '设备id', '开始时间', '结束时间', '租借天数', '租借个数', '租借人工号', '订单状态', '操作'];
+    const allHeaders = ['订单编号', '图片', '设备名称', '开始时间', '结束时间', '租借天数', '租借个数', '租借人工号', '订单状态', '操作'];
 
     //===========================function部分===========================
 
@@ -46,7 +47,8 @@ $(document).ready(function () {
                     '</div>';
             case 1:
                 return '<div class="btn-group btn-group-sm fw-flex m-l-45" order="' + orderId + '">' +
-                    '<button title="提醒归还设备" type="button" class="btn remindReturn-btn btn-success"><span class="ti-info-alt"></span></button>' +
+                    '<button title="提醒归还设备" type="button" class="btn remindReturn-btn btn-primary"><span class="ti-info-alt"></span></button>' +
+                    '<button title="确认归还设备" type="button" class="btn sureReturn-btn btn-success">确认归还</button>' +
                     '</div>';
             case 2:
                 return '';
@@ -56,15 +58,35 @@ $(document).ready(function () {
     }
 
     /**
+     * 获取设备图片与名称
+     * @param {Number} eqId 设备id 
+     */
+    const getDeviceImg = (eqId) => {
+        let device = deviceList.find(v => {
+            return eqId === v.eqId;
+        })
+
+        let imgArr = device.images;
+        imgArr = JSON.parse(imgArr);
+        const imgUrl = imgArr.length == 0 ? 'assets/images/testImg.png' : (baseUrl + 'file/image?picName=' + imgArr[0]);
+        let $img = document.createElement("img");
+        $img.src = imgUrl;
+        $img.style.width = '100px';
+        $img.style.height = '100px';
+        
+        return [$img.outerHTML, device.eqName];
+    }
+
+    /**
      * 向订单表格插入一条数据
      * @param {Object} order 
      */
     const inserDataToTable = (order) => {
         let btns = getBtnsByOrderStatus(order.orderStatus, order.orderNumber);
-
+        let deviceImg = getDeviceImg(order.eqId);
         orderTable.row.add([
             order.orderNumber,
-            order.eqId,
+            ...deviceImg,
             (new Date(order.orderStart)).Format("yyyy-MM-dd hh:mm:ss"),
             order.orderEnd ? (new Date(order.orderEnd)).Format("yyyy-MM-dd hh:mm:ss") : '未结束',
             order.orderLendDays,
@@ -122,7 +144,7 @@ $(document).ready(function () {
      * @param {String} orderNumber 
      * @param {Number} orderStatus 
      */
-    const changeOrderStatus = (orderNumber, orderStatus,nowStatus) => {
+    const changeOrderStatus = (orderNumber, orderStatus, nowStatus) => {
         $.ajax({
             url: baseUrl + `order/order`,
             type: "PUT",
@@ -133,7 +155,7 @@ $(document).ready(function () {
         }).then((res) => {
             if (res.code === 200) {
                 alert("操作成功");
-                loadOriginData(nowStatus);
+                loadOrderData(nowStatus);
             } else {
                 alert("操作失败");
             }
@@ -141,10 +163,10 @@ $(document).ready(function () {
     }
 
     /**
-    * 加载最新数据
+    * 加载最新订单数据
     * @param {Number} orderStatus 展示的指定状态数据
     */
-    const loadOriginData = (orderStatus) => {
+    const loadOrderData = (orderStatus) => {
         //拿到
         $.ajax({
             url: baseUrl + `order/order/${account}`,
@@ -165,6 +187,39 @@ $(document).ready(function () {
         });
     }
 
+    /**
+     * 获取设备列表
+     */
+    const loadDeviceData = () => {
+        return new Promise(resolve => {
+            $.ajax({
+                url: baseUrl + "devices/" + account,
+                type: "GET"
+            }).done(res => {
+                if (res.code == 200) {
+                    deviceList = res.data.equipmentList;
+                    resolve();
+                } else {
+                    switch (res.code) {
+                        case 201:
+                            alert('没有权限');
+                            break;
+                        case 206:
+                        case 500:
+                            alert('未知异常');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            })
+        })
+    }
+
+    const InitPage = async () => {
+        await loadDeviceData();
+        await loadOrderData(666);
+    }
 
     //==================================init初始化============================
     //初始化deviceTable对象的表头
@@ -175,8 +230,8 @@ $(document).ready(function () {
     initStateMap();
     //初始化订单表
     let orderTable = initOrderTables();
-
-    loadOriginData(666);
+    // 加载全部
+    InitPage();
     //==========================event==============================================
 
     /**
@@ -204,7 +259,7 @@ $(document).ready(function () {
     $('#orderTable tbody').on('click', '.refuse-btn', function (e) {
         let orderNumber = $(this).parent().attr("order");
         if (confirm("确认拒绝?")) {
-            changeOrderStatus(orderNumber, -2,-1);
+            changeOrderStatus(orderNumber, -2, -1);
         }
     })
 
@@ -214,7 +269,7 @@ $(document).ready(function () {
     $('#orderTable tbody').on('click', '.allow-btn', function (e) {
         let orderNumber = $(this).parent().attr("order");
         if (confirm("确认同意?")) {
-            changeOrderStatus(orderNumber, 0,-1);
+            changeOrderStatus(orderNumber, 0, -1);
         }
     })
 
@@ -236,6 +291,25 @@ $(document).ready(function () {
         if (confirm("确认发送提醒短信")) {
             // changeOrderStatus(orderNumber, 1, 0);
             alert("发送成功")
+        }
+    })
+    /**
+    * 确认发送提醒短信(归还)
+    */
+    $('#orderTable tbody').on('click', '.remindReturn-btn', function (e) {
+        let orderNumber = $(this).parent().attr("order");
+        if (confirm("确认发送提醒短信")) {
+            // changeOrderStatus(orderNumber, 1, 0);
+            alert("发送成功")
+        }
+    })
+    /**
+    * 确认归还
+    */
+    $('#orderTable tbody').on('click', '.sureReturn-btn', function (e) {
+        let orderNumber = $(this).parent().attr("order");
+        if (confirm("确认设备已经归还")) {
+            changeOrderStatus(orderNumber, 2, 1);
         }
     })
 
