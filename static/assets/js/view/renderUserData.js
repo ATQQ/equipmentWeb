@@ -218,6 +218,11 @@ $(document).ready(function () {
                 }
             }
 
+            // 如果userNumber没有变化移除其值
+            if(editData[0]===data.userNumber){
+                Reflect.deleteProperty(data,"userNumber");
+            }
+
             $.ajax({
                 url: baseUrl + 'user/userinfo/' + account,
                 type: 'PUT',
@@ -231,6 +236,8 @@ $(document).ready(function () {
                     })
                     $row.data(nowData).draw();
                     alert('更新成功');
+                }else{
+                    alert('学号已存在');
                 }
             })
         })
